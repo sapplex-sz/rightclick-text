@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>CFBundleDevelopmentRegion</key><string>$(DEVELOPMENT_LANGUAGE)</string>
+  <key>CFBundleDisplayName</key><string>New Text File</string>
+  <key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
+  <key>CFBundleIdentifier</key><string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+  <key>CFBundleIconFile</key><string>AppIcon</string>
+  <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+  <key>CFBundleName</key><string>New Text File</string>
+  <key>CFBundlePackageType</key><string>XPC!</string>
+  <key>CFBundleShortVersionString</key><string>$(MARKETING_VERSION)</string>
+  <key>CFBundleVersion</key><string>$(CURRENT_PROJECT_VERSION)</string>
+  <key>LSMinimumSystemVersion</key><string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+  <key>RCTAppGroupIdentifier</key><string>$(RCT_APP_GROUP)</string>
+  <key>NSExtension</key><dict>
+    <key>NSExtensionAttributes</key><dict>
+      <key>NSExtensionActivationRule</key>
+      <string>extensionItems.@count == 1 AND SUBQUERY(extensionItems, $item, $item.attachments.@count == 1 AND SUBQUERY($item.attachments, $attachment, ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.file-url").@count == 1).@count == 1</string>
+      <key>NSExtensionServiceRoleType</key><string>NSExtensionServiceRoleTypeViewer</string>
+      <key>NSExtensionServiceAllowsFinderPreviewItem</key><true/>
+      <key>NSExtensionServiceFinderPreviewLabel</key><string>New Text File</string>
+      <key>NSExtensionServiceFinderPreviewIconName</key><string>doc.badge.plus</string>
+    </dict>
+    <key>NSExtensionPointIdentifier</key><string>com.apple.services</string>
+    <key>NSExtensionPrincipalClass</key><string>$(PRODUCT_MODULE_NAME).ActionRequestHandler</string>
+  </dict>
+</dict></plist>

@@ -1,0 +1,115 @@
+name: RightClickText
+options:
+  bundleIdPrefix: com.sapplex
+  deploymentTarget:
+    macOS: "13.0"
+  xcodeVersion: "16.0"
+  developmentLanguage: en
+  knownRegions: [en, zh-Hans]
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MACOSX_DEPLOYMENT_TARGET: "13.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "11"
+    DEVELOPMENT_TEAM: 8D9AHY5YW8
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    ENABLE_HARDENED_RUNTIME: YES
+    CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    RCT_APP_GROUP: 8D9AHY5YW8.com.sapplex.RightClickText
+    RCT_EXTENSION_ID: com.sapplex.RightClickText.FinderExtension
+  configs:
+    Release:
+      SWIFT_COMPILATION_MODE: wholemodule
+      SWIFT_OPTIMIZATION_LEVEL: -O
+targets:
+  RightClickText:
+    type: application
+    platform: macOS
+    sources:
+      - Sources/App
+      - Sources/Shared
+      - Sources/Core
+      - Sources/ServiceInterface
+      - path: Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sapplex.RightClickText
+        INFOPLIST_FILE: Configuration/App-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Configuration/App.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        COMBINE_HIDPI_IMAGES: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+    dependencies:
+      - target: FinderExtension
+        embed: true
+        codeSign: true
+      - target: ActionExtension
+        embed: true
+        codeSign: true
+      - target: CreationService
+        embed: true
+        codeSign: true
+  CreationService:
+    type: xpc-service
+    platform: macOS
+    sources:
+      - Sources/CreationService
+      - Sources/ServiceInterface
+      - Sources/Core/FileOperations.swift
+      - Sources/Core/ServiceDirectoryPolicy.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sapplex.RightClickText.CreationService
+        INFOPLIST_FILE: Configuration/CreationService-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Configuration/CreationService.entitlements
+        SKIP_INSTALL: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks"
+  FinderExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - Sources/Extension
+      - Sources/Shared
+      - Sources/Core
+      - path: Resources
+        excludes: [PrivacyInfo.xcprivacy]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sapplex.RightClickText.FinderExtension
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Configuration/Extension-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Configuration/Extension.entitlements
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks"
+  ActionExtension:
+    type: app-extension
+    platform: macOS
+    sources:
+      - Sources/ActionExtension
+      - Sources/Shared
+      - Sources/Core
+      - path: Resources
+        excludes: [PrivacyInfo.xcprivacy, "**/InfoPlist.strings"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sapplex.RightClickText.ActionExtension
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_FILE: Configuration/ActionExtension-Info.plist
+        CODE_SIGN_ENTITLEMENTS: Configuration/ActionExtension.entitlements
+        APPLICATION_EXTENSION_API_ONLY: YES
+        SKIP_INSTALL: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks"
+schemes:
+  RightClickText:
+    build:
+      targets:
+        RightClickText: all
+    run:
+      config: Debug
+    archive:
+      config: Release
